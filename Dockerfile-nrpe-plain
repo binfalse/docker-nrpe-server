@@ -23,7 +23,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-VOLUME /etc/nagios/nrpe.d/
+VOLUME [ "/etc/nagios/nrpe.d/", "/etc/nagios/certs/", "/usr/lib/nagios/extra/" ]
 EXPOSE 5666
 
 COPY src/nrpe-runner /

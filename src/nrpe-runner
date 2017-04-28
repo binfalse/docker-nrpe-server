@@ -23,14 +23,18 @@ fi
 
 # USE SSL?
 SSLFLAG=""
-if [ "$SSL" = "no" ]
+if [ "$SSL" = "yes" ]
 then
+    echo "ssl_cacert_file=/etc/nagios/certs/chain.txt" >> $OURCONF
+		echo "ssl_cert_file=/etc/nagios/certs/cert.cer" >> $OURCONF
+		echo "ssl_privatekey_file=/etc/nagios/certs/key.pem" >> $OURCONF
+else
     SSLFLAG="-n"
 fi
 
 
 
-mkdir -p /var/run/nagios
+mkdir -p /var/run/nagios /etc/nagios/certs /usr/lib/nagios/extra
 echo "pid_file=/var/run/nagios/nrpe.pid" >> $OURCONF
 
 # run the fake syslog to print the log to std::out
