@@ -26,7 +26,7 @@ RUN apt-get update \
 VOLUME /etc/nagios/nrpe.d/
 EXPOSE 5666
 
-COPY ../src/nrpe-runner /
+COPY src/nrpe-runner /
 
 ENTRYPOINT /nrpe-runner
 
