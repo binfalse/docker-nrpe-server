@@ -20,6 +20,10 @@ RUN apt-get update \
         monitoring-plugins-common \
         monitoring-plugins-standard \
         nagios-plugins-contrib \
+        liburi-perl \
+        liblwp-protocol-https-perl \
+        libwww-perl \
+        libhttp-cookies-perl \
         bf-monitoring \
         bf-syslog2stdout \
     && egrep -v "^((allowed_hosts|server_port|pid_file|include|include_dir)=|#)" /etc/nagios/nrpe.cfg | grep -v '^$' > /tmp/nrpe.cfg \
