@@ -1,0 +1,41 @@
+#!/bin/sh
+
+OURCONF=/etc/nagios/auto-manage.cfg
+
+[ -e $OURCONF ] && rm $OURCONF
+touch $OURCONF
+
+
+# SET ALLOWED HOSTS
+if [ -n "$ALLOWEDHOSTS" ]
+then
+    echo "allowed_hosts=$ALLOWEDHOSTS" >> $OURCONF
+fi
+
+
+# SET LISTENING PORT
+if [ -n "$PORT" ]
+then
+    echo "server_port=$PORT" >> $OURCONF
+else
+    echo "server_port=5666" >> $OURCONF
+fi
+
+# USE SSL?
+SSLFLAG=""
+if [ "$SSL" = "no" ]
+then
+    SSLFLAG="-n"
+fi
+
+
+
+mkdir -p /var/run/nagios
+echo "pid_file=/var/run/nagios/nrpe.pid" >> $OURCONF
+
+# run the fake syslog to print the log to std::out
+/bin/syslog2stdout /dev/log &
+
+# run the server
+/usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -f $SSLFLAG
+
