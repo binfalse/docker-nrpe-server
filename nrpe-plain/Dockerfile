@@ -26,8 +26,7 @@ RUN apt-get update \
 VOLUME /etc/nagios/nrpe.d/
 EXPOSE 5666
 
-COPY nrpe-runner /
-COPY syslog2stdout/syslog2stdout /
+COPY ../src/nrpe-runner /
 
 ENTRYPOINT /nrpe-runner
 
