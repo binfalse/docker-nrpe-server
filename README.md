@@ -3,6 +3,12 @@
 This repository compiles into a Docker image containing a Nagios-NRPE-Server.
 [Documentation for the NRPE server configuration](http://nagios.sourceforge.net/docs/nrpe/NRPE.pdf) can be found on the Nagios website, see also the [GitHub project page of NRPE](https://github.com/NagiosEnterprises/nrpe).
 
+Features:
+
+* Quick configuration through environment variables
+* Logging through Docker (std::out on the container)
+* SSL support
+
 ## Versions / Tags
 
 The image comes in two flavours:
@@ -88,8 +94,45 @@ And that's it. You should now be able to execute that command by sending `-c che
 
 ### SSL
 
+By default, the NRPE server in this image does not support SSL encryption.
+However, I recommend that you setup SSL for security reasons!
+
+To enable SSL you need to have a directory `/PATH/certs` containing at least the following three files:
+
+* `chain.txt` your CA-certificates including all chain certificates
+* `cert.cer` the SSL certificate
+* `key.pem` the SSL key
+
+This directory needs to be mounted to `/etc/nagios/certs/` and you need to set `SSL=yes` for the container's environment:
+
+    docker run -it --rm -p 5666 -v /PATH/certs/:/etc/nagios/certs/ -e SSL=yes binfalse/nrpe-server:full
+
+Afterwards you should be able to use encrypted communication.
 
 ## Docker-Compose
+
+For those of you using [Docker Compose](https://docs.docker.com/compose/) the following snippet may come in handy:
+
+	version: '2'
+	services:
+		nrpe-server:
+			restart: always
+			image: binfalse/nrpe-server:full
+			container_name: nrpe-server
+			ports:
+				- "5667:5666"
+			volumes:
+				- /PATH/certs/:/etc/nagios/certs/:ro
+				- /PATH/cfg/:/etc/nagios/nrpe.d/:ro
+				- /PATH/plugins/:/usr/lib/nagios/extra/:ro
+			environment:
+				SSL: "yes"
+				PORT: 5666
+				ALLOWEDHOSTS: "1.2.3.4"
+			logging:
+				driver: syslog
+				options:
+					tag: docker/nrpe-server
 
 
 
