@@ -54,6 +54,7 @@ fi
 
 
 mkdir -p /var/run/nagios /etc/nagios/certs /usr/lib/nagios/extra
+[ -e "/var/run/nagios/nrpe.pid" ] && rm "/var/run/nagios/nrpe.pid"
 echo "pid_file=/var/run/nagios/nrpe.pid" >> $OURCONF
 
 # run the fake syslog to print the log to std::out
