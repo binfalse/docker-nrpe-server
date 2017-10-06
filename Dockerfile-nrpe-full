@@ -20,6 +20,8 @@ RUN apt-get update \
         monitoring-plugins-common \
         monitoring-plugins-standard \
         nagios-plugins-contrib \
+        curl \
+        file \
         liburi-perl \
         liblwp-protocol-https-perl \
         libwww-perl \
