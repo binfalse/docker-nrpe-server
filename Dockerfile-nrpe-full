@@ -7,6 +7,7 @@ RUN apt-get update \
     && gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E81BC3078D2DD9BD \
     && gpg -a --export E81BC3078D2DD9BD | apt-key add - \
     && echo "deb http://apt.binfalse.de binfalse main" > "/etc/apt/sources.list.d/binfalse.list" \
+    && echo "deb http://deb.debian.org/debian stable main" > "/etc/apt/sources.list.d/stable.list" \
     && apt-get purge -y -q --autoremove gnupg dirmngr \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
