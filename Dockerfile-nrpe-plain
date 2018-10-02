@@ -4,7 +4,7 @@ MAINTAINER martin scharm <https://binfalse.de>
 # nrpe server cannot log to std::out, so we need syslog2stdout (i provide a package at apt.binfalse.de)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gnupg dirmngr \
-    && gpg --keyserver pgp.mit.edu --recv-key E81BC3078D2DD9BD \
+    && gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E81BC3078D2DD9BD \
     && gpg -a --export E81BC3078D2DD9BD | apt-key add - \
     && echo "deb http://apt.binfalse.de binfalse main" > "/etc/apt/sources.list.d/binfalse.list" \
     && apt-get purge -y -q --autoremove gnupg dirmngr \
